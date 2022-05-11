@@ -1,5 +1,6 @@
 :root {
     --header-color: #e9eef6;
+    --shadow-color: #a5a5a5;
 }
 
 .header-container {
@@ -11,4 +12,12 @@
 .btn-task {
     margin-top: 0.5rem;
     font-size: 20px;
+}
+.task-container {
+    height: 50rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #f6f7f8;
+    padding: 3rem;
 }
