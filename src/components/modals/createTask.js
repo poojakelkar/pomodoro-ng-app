@@ -1,10 +1,29 @@
 import React, { useState } from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
-const createTask = ({ modal, toggle }) => {
+const CreateTask = ({ modal, toggle, save }) => {
     const [taskName, setTaskName] = useState("");
     const [desc, setDesc] = useState("");
     const [timer, setTimer] = useState("");
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === "taskName") {
+            setTaskName(value);
+        } else if (name === "taskDescription") {
+            setDesc(value);
+        } else {
+            setTimer(value);
+        }
+    };
+
+    const handleSave = () => {
+        let taskobj = {};
+        taskobj["Name"] = taskName;
+        taskobj["Description"] = desc;
+        taskobj["Time"] = timer;
+        save(taskobj);
+    };
 
     return (
         <Modal isOpen={modal} toggle={toggle}>
@@ -16,26 +35,32 @@ const createTask = ({ modal, toggle }) => {
                         <input
                             type='text'
                             className='form-control'
-                            value={taskName}></input>
+                            value={taskName}
+                            name='taskName'
+                            onChange={handleChange}></input>
                     </div>
                     <div className='form-group'>
                         <label>Task Description</label>
                         <textarea
                             rows='5'
                             className='form-control'
-                            value={desc}></textarea>
+                            value={desc}
+                            name='taskDescription'
+                            onChange={handleChange}></textarea>
                     </div>
                     <div className='form-group'>
                         <label>Task Time</label>
                         <input
-                            type='text'
+                            type='number'
                             className='form-control'
-                            value={timer}></input>
+                            value={timer}
+                            name='taskTimer'
+                            onChange={handleChange}></input>
                     </div>
                 </form>
             </ModalBody>
             <ModalFooter>
-                <Button color='primary' onClick={toggle}>
+                <Button color='primary' onClick={handleSave}>
                     {""}
                     Create
                 </Button>
@@ -47,4 +72,4 @@ const createTask = ({ modal, toggle }) => {
     );
 };
 
-export default createTask;
+export default CreateTask;
