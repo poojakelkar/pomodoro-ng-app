@@ -1,13 +1,25 @@
-import React, { useState } from "react";
-import "./card.css";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import React, { useContext } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import EditTask from "../../modals/EditTask";
+import { MainContext } from "../../store/mainContext";
+import { types } from "../../store/reducer";
+import "./card.css";
 
 const Card = ({ taskobj, index, deleteTask, updateListArray }) => {
-    const [modal, setModal] = useState(false);
+    const { state, dispatch } = useContext(MainContext);
 
     const toggle = () => {
-        setModal(!modal);
+        dispatch({
+            type: state.isEditModelOpen
+                ? types.CLOSE_EDIT_MODEL
+                : types.OPEN_EDIT_MODEL,
+        });
+    };
+
+    const openModal = () => {
+        dispatch({
+            type: types.OPEN_EDIT_MODEL,
+        });
     };
 
     const updateTask = (obj) => {
@@ -29,7 +41,7 @@ const Card = ({ taskobj, index, deleteTask, updateListArray }) => {
                         size={20}
                         className='icon'
                         style={{ color: "#5DC250", marginRight: "20" }}
-                        onClick={() => setModal(true)}
+                        onClick={openModal}
                     />
                     <AiFillDelete
                         size={20}
@@ -39,12 +51,14 @@ const Card = ({ taskobj, index, deleteTask, updateListArray }) => {
                     />
                 </div>
             </div>
-            <EditTask
-                modal={modal}
-                toggle={toggle}
-                updateTask={updateTask}
-                taskobj={taskobj}
-            />
+            {state.isEditModelOpen && (
+                <EditTask
+                    modal={state.isEditModelOpen}
+                    toggle={toggle}
+                    updateTask={updateTask}
+                    taskobj={taskobj}
+                />
+            )}
         </div>
     );
 };

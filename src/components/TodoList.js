@@ -1,45 +1,58 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CreateTask from "../modals/CreateTask";
+import { MainContext } from "../store/mainContext";
+import { types } from "../store/reducer";
 import Card from "./Card/Card";
 
 const TodoList = () => {
-    const [modal, setModal] = useState(false);
-    const [taskList, setTaskList] = useState([]);
+    const { state, dispatch } = useContext(MainContext);
 
     useEffect(() => {
-        let arr = localStorage.getItem("taskList");
-        if (arr) {
-            let obj = JSON.parse(arr);
-            setTaskList(obj);
-        }
-    }, []);
+        dispatch({
+            type: types.POPULATE_TASK_FROM_LOCALSTORAGE,
+        });
+    }, [dispatch]);
+
+    const openModal = () => {
+        dispatch({
+            type: types.OPEN_CREATE_MODEL,
+        });
+    };
 
     const deleteTask = (index) => {
-        let tempList = taskList;
-        tempList.splice(index, 1);
-        localStorage.setItem("taskList", JSON.stringify(tempList));
-        setTaskList(tempList);
-        window.location.reload();
+        dispatch({
+            type: types.DELETE_TASK,
+            payload: {
+                index,
+            },
+        });
     };
 
-    const saveTask = (taskobj) => {
-        const tempList = taskList;
-        tempList.push(taskobj);
-        localStorage.setItem("taskList", JSON.stringify(tempList));
-        setTaskList(tempList);
-        setModal(false);
+    const saveTask = (task) => {
+        dispatch({
+            type: types.ADD_TASK,
+            payload: {
+                task,
+            },
+        });
     };
 
-    const updateListArray = (obj, index) => {
-        const tempList = taskList;
-        tempList[index] = obj;
-        localStorage.setItem("taskList", JSON.stringify(tempList));
-        setTaskList(tempList);
-        window.location.reload();
+    const updateListArray = (task, index) => {
+        dispatch({
+            type: types.UPDATE_TASK,
+            payload: {
+                task,
+                index,
+            },
+        });
     };
 
     const toggle = () => {
-        setModal(!modal);
+        dispatch({
+            type: state.isCreateModelOpen
+                ? types.CLOSE_CREATE_MODEL
+                : types.OPEN_CREATE_MODEL,
+        });
     };
     return (
         <>
@@ -47,21 +60,29 @@ const TodoList = () => {
                 <h3>To-Do List</h3>
                 <button
                     className='btn btn-primary btn-task'
-                    onClick={() => setModal(true)}>
+                    onClick={openModal}>
                     Create Task
                 </button>
             </div>
             <div className='task-container'>
-                {taskList.map((obj, index) => (
-                    <Card
-                        taskobj={obj}
-                        index={index}
-                        deleteTask={deleteTask}
-                        updateListArray={updateListArray}
-                    />
-                ))}
+                {!!state?.taskList?.length &&
+                    state?.taskList.map((obj, index) => (
+                        <Card
+                            key={index}
+                            taskobj={obj}
+                            index={index}
+                            deleteTask={deleteTask}
+                            updateListArray={updateListArray}
+                        />
+                    ))}
             </div>
-            <CreateTask toggle={toggle} modal={modal} save={saveTask} />
+            {state.isCreateModelOpen && (
+                <CreateTask
+                    toggle={toggle}
+                    modal={state.isCreateModelOpen}
+                    saveTask={saveTask}
+                />
+            )}
         </>
     );
 };

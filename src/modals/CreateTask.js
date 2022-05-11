@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
-const CreateTask = ({ modal, toggle, save }) => {
+const CreateTask = ({ modal, toggle, saveTask }) => {
     const [taskName, setTaskName] = useState("");
     const [desc, setDesc] = useState("");
     const [timer, setTimer] = useState("");
@@ -22,7 +22,7 @@ const CreateTask = ({ modal, toggle, save }) => {
         taskobj["Name"] = taskName;
         taskobj["Description"] = desc;
         taskobj["Time"] = timer;
-        save(taskobj);
+        saveTask(taskobj);
     };
 
     return (

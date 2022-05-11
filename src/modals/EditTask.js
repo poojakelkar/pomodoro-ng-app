@@ -67,8 +67,7 @@ const EditTask = ({ modal, toggle, updateTask, taskobj }) => {
             </ModalBody>
             <ModalFooter>
                 <Button color='primary' onClick={handleEdit}>
-                    {""}
-                    Edit
+                    Save
                 </Button>
                 <Button color='secondary' onClick={toggle}>
                     Cancel
