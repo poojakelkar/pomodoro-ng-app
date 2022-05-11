@@ -1,0 +1,14 @@
+:root {
+    --header-color: #e9eef6;
+}
+
+.header-container {
+    height: 25vh;
+    width: 100%;
+    background-color: var(--header-color);
+    padding-top: 3rem;
+}
+.btn-task {
+    margin-top: 0.5rem;
+    font-size: 20px;
+}
