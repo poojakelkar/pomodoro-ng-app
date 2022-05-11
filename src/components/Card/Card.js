@@ -20,9 +20,9 @@ const Card = ({ taskobj, index, deleteTask, updateListArray }) => {
         <div className='card-wrapper'>
             <div className='card-top'></div>
             <div className='card-holder'>
-                <h5 className='card-header'>{taskobj.Name}</h5>
-                <p>{taskobj.Description}</p>
-                <h6>{taskobj.Time} Hours</h6>
+                <h5 className='card-heading'>{taskobj.Name}</h5>
+                <p className='card-desc'>{taskobj.Description}</p>
+                <h6 className='card-timer'>{taskobj.Time} Hours</h6>
 
                 <div className='card-footer'>
                     <AiFillEdit

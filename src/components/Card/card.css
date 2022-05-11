@@ -10,31 +10,39 @@
 .card-top {
     width: 100%;
     height: 2%;
+    background-color: blueviolet;
 }
 .task-holder {
     width: 100%;
     height: 100%;
-    padding: 1rem;
     display: flex;
     flex-direction: column;
     position: relative;
-    margin: 1rem;
     overflow: hidden;
 }
-.card-header {
-    margin-top: 1rem 0rem;
-    max-width: 6rem;
+.card-heading {
     height: 3rem;
     padding: 0px 1px !important;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+.card-desc {
+    font-size: 18px;
+}
+.card-timer {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    top: 5rem;
+    cursor: pointer;
+}
 .card-footer {
     position: relative;
     width: 100%;
     display: flex;
     justify-content: end;
-    top: 2rem;
+    top: 6rem;
     cursor: pointer;
 }
