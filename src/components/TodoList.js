@@ -1,11 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import CreateTask from "../modals/CreateTask";
+import EditTask from "../modals/EditTask";
 import { MainContext } from "../store/mainContext";
 import { types } from "../store/reducer";
 import Card from "./Card/Card";
 
 const TodoList = () => {
     const { state, dispatch } = useContext(MainContext);
+
+    const toggleEditModal = () => {
+        dispatch({
+            type: state.isEditModelOpen
+                ? types.CLOSE_EDIT_MODEL
+                : types.OPEN_EDIT_MODEL,
+        });
+    };
 
     useEffect(() => {
         dispatch({
@@ -26,6 +35,19 @@ const TodoList = () => {
                 index,
             },
         });
+    };
+
+    const openEditModal = (index) => {
+        debugger;
+        dispatch({
+            type: types.OPEN_EDIT_MODEL,
+            payload: { currentEditIndex: index },
+        });
+    };
+
+    const updateTask = (obj) => {
+        debugger;
+        updateListArray(obj, state?.currentEditIndex);
     };
 
     const saveTask = (task) => {
@@ -68,6 +90,7 @@ const TodoList = () => {
                 {!!state?.taskList?.length &&
                     state?.taskList.map((obj, index) => (
                         <Card
+                            openEditModal={openEditModal}
                             key={index}
                             taskobj={obj}
                             index={index}
@@ -81,6 +104,14 @@ const TodoList = () => {
                     toggle={toggle}
                     modal={state.isCreateModelOpen}
                     saveTask={saveTask}
+                />
+            )}
+            {state.isEditModelOpen && (
+                <EditTask
+                    modal={state.isEditModelOpen}
+                    toggle={toggleEditModal}
+                    updateTask={updateTask}
+                    taskobj={{ ...state?.taskList[state?.currentEditIndex] }}
                 />
             )}
         </>

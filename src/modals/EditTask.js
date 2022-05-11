@@ -21,7 +21,7 @@ const EditTask = ({ modal, toggle, updateTask, taskobj }) => {
         setTaskName(taskobj.Name);
         setDesc(taskobj.Description);
         setTimer(taskobj.Time);
-    }, []);
+    }, [taskobj]);
 
     const handleEdit = (e) => {
         e.preventDefault();

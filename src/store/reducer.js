@@ -13,6 +13,7 @@ export const initialState = {
     taskList: [],
     isCreateModelOpen: false,
     isEditModelOpen: false,
+    currentEditIndex: 0,
 };
 
 /*
@@ -50,6 +51,7 @@ export const reducer = (state = initialState, { type, payload }) => {
         }
         case types.UPDATE_TASK: {
             const tempList = state?.taskList;
+            debugger;
             tempList[payload?.index] = payload?.task;
             localStorage.setItem("taskList", JSON.stringify(tempList));
             return {
@@ -69,7 +71,12 @@ export const reducer = (state = initialState, { type, payload }) => {
         case types.CLOSE_CREATE_MODEL:
             return { ...state, isCreateModelOpen: false };
         case types.OPEN_EDIT_MODEL:
-            return { ...state, isEditModelOpen: true };
+            debugger;
+            return {
+                ...state,
+                isEditModelOpen: true,
+                currentEditIndex: payload?.currentEditIndex || 0,
+            };
         case types.CLOSE_EDIT_MODEL:
             return { ...state, isEditModelOpen: false };
         default:
