@@ -36,4 +36,5 @@
     display: flex;
     justify-content: end;
     top: 2rem;
+    cursor: pointer;
 }
