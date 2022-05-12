@@ -51,7 +51,7 @@ const CreateTask = ({ modal, toggle, saveTask }) => {
                     <div className='form-group'>
                         <label>Task Time</label>
                         <input
-                            type='number'
+                            type='time'
                             className='form-control'
                             value={timer}
                             name='taskTimer'
