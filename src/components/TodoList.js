@@ -4,6 +4,7 @@ import EditTask from "../modals/EditTask";
 import { MainContext } from "../store/mainContext";
 import { types } from "../store/reducer";
 import Card from "./Card/Card";
+import { AiFillPlusCircle } from "react-icons/ai";
 
 const TodoList = () => {
     const { state, dispatch } = useContext(MainContext);
@@ -78,42 +79,55 @@ const TodoList = () => {
     };
     return (
         <>
-            <div className='header-container text-center'>
-                <h3>To-Do List</h3>
-                <button
-                    className='btn btn-primary btn-task'
-                    onClick={openModal}>
-                    Create Task
-                </button>
+            <div className='main-container'>
+                <div className='main-header-container'>
+                    <h2>Hello, Please Complete your To-Do list</h2>
+                    <h4>You have {Card.length} task today, All the Best!</h4>
+                </div>
+                <div className='header-container'>
+                    <div className='to-do-container'>
+                        <h3>To-Do List</h3>
+                        <AiFillPlusCircle
+                            onClick={openModal}
+                            size={40}
+                            style={{ color: "#4f3cf9", cursor: "pointer" }}>
+                            Create Task
+                        </AiFillPlusCircle>
+                    </div>
+
+                    <div className='task-container'>
+                        {!!state?.taskList?.length &&
+                            state?.taskList.map((obj, index) => (
+                                <Card
+                                    openEditModal={openEditModal}
+                                    key={index}
+                                    taskobj={obj}
+                                    index={index}
+                                    deleteTask={deleteTask}
+                                    updateListArray={updateListArray}
+                                />
+                            ))}
+                    </div>
+                </div>
+
+                {state.isCreateModelOpen && (
+                    <CreateTask
+                        toggle={toggle}
+                        modal={state.isCreateModelOpen}
+                        saveTask={saveTask}
+                    />
+                )}
+                {state.isEditModelOpen && (
+                    <EditTask
+                        modal={state.isEditModelOpen}
+                        toggle={toggleEditModal}
+                        updateTask={updateTask}
+                        taskobj={{
+                            ...state?.taskList[state?.currentEditIndex],
+                        }}
+                    />
+                )}
             </div>
-            <div className='task-container'>
-                {!!state?.taskList?.length &&
-                    state?.taskList.map((obj, index) => (
-                        <Card
-                            openEditModal={openEditModal}
-                            key={index}
-                            taskobj={obj}
-                            index={index}
-                            deleteTask={deleteTask}
-                            updateListArray={updateListArray}
-                        />
-                    ))}
-            </div>
-            {state.isCreateModelOpen && (
-                <CreateTask
-                    toggle={toggle}
-                    modal={state.isCreateModelOpen}
-                    saveTask={saveTask}
-                />
-            )}
-            {state.isEditModelOpen && (
-                <EditTask
-                    modal={state.isEditModelOpen}
-                    toggle={toggleEditModal}
-                    updateTask={updateTask}
-                    taskobj={{ ...state?.taskList[state?.currentEditIndex] }}
-                />
-            )}
         </>
     );
 };

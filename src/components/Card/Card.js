@@ -8,26 +8,23 @@ const Card = ({ taskobj, index, deleteTask, openEditModal }) => {
     };
     return (
         <div className='card-wrapper'>
-            <div className='card-top'></div>
             <div className='card-holder'>
                 <h5 className='card-heading'>{taskobj.Name}</h5>
-                <p className='card-desc'>{taskobj.Description}</p>
-                <h6 className='card-timer'>{taskobj.Time} Hours</h6>
-
-                <div className='card-footer'>
-                    <AiFillEdit
-                        size={20}
-                        className='icon'
-                        style={{ color: "#5DC250", marginRight: "20" }}
-                        onClick={() => openEditModal(index)}
-                    />
-                    <AiFillDelete
-                        size={20}
-                        className='icon'
-                        style={{ color: "#5DC250" }}
-                        onClick={handleDelete}
-                    />
-                </div>
+            </div>
+            <div className='footer'>
+                <h7 className='card-timer'>{taskobj.Time} min</h7>
+                <AiFillEdit
+                    size={20}
+                    className='icon'
+                    style={{ color: "#4f3cf9", marginRight: "20" }}
+                    onClick={() => openEditModal(index)}
+                />
+                <AiFillDelete
+                    size={20}
+                    className='icon'
+                    style={{ color: "#4f3cf9" }}
+                    onClick={handleDelete}
+                />
             </div>
         </div>
     );
