@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./timer.css";
 import { AiFillLeftCircle } from "react-icons/ai";
 import { Link, useParams } from "react-router-dom";
 import { MainContext } from "../../store/mainContext";
-import { types } from "../../store/reducer";
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { convertHMS } from "../../utils/time";
+import "./timer.css";
 
 const Timer = () => {
-    const { state, dispatch } = useContext(MainContext);
-    const [minute, setMinute] = useState(0);
+    const { state } = useContext(MainContext);
+    const [task, setTask] = useState(null);
+    const { taskId } = useParams();
     const [seconds, setSeconds] = useState(0);
     const [isActive, setIsActive] = useState(false);
 
@@ -17,27 +17,40 @@ const Timer = () => {
     }
 
     function reset() {
-        setSeconds(0);
+        setSeconds(parseInt(task.time, 10) * 60);
         setIsActive(false);
     }
 
     useEffect(() => {
-        let interval = null;
+        if (taskId !== null || taskId !== undefined) {
+            const task = state?.taskList?.[taskId];
+            if (task) {
+                setTask(task);
+                setSeconds(parseInt(task.time, 10) * 60);
+            }
+        }
+    }, [taskId, state?.taskList]);
 
-        if (isActive) {
+    useEffect(() => {
+        let interval = null;
+        if (isActive && seconds > 0) {
             interval = setInterval(() => {
-                setSeconds((seconds) => seconds + 1);
-                if (seconds === 59) {
-                    setMinute((minute) => minute + 1);
-                    setSeconds(0);
+                if (seconds <= 0) {
+                    setIsActive(false);
+                    clearInterval(interval);
                 }
+                setSeconds((seconds) => seconds - 1);
             }, 1000);
-        } else if (!isActive && seconds !== 0) {
+        } else if (seconds <= 0) {
+            setIsActive(false);
             clearInterval(interval);
         }
         return () => clearInterval(interval);
     }, [isActive, seconds]);
-
+    let progressWidth = "100%";
+    if (task?.time != null) {
+        progressWidth = `${(seconds / (parseInt(task.time, 10) * 60)) * 100}%`;
+    }
     return (
         <>
             <div className='timer'>
@@ -48,11 +61,14 @@ const Timer = () => {
                         </Link>
                         <div className='timer-container'>
                             <h1>Timer</h1>
-                            <h1>
-                                {minute < 10 ? "0" + minute : minute}:
-                                {seconds < 10 ? "0" + seconds : seconds}
-                            </h1>
+                            <h1>{convertHMS(seconds)}</h1>
+                            <div class='progress-bar'>
+                                <div
+                                    className='time-remaining'
+                                    style={{ width: progressWidth }}></div>
+                            </div>
                             <button
+                                disabled={parseInt(task?.time, 10) * 60 <= 0}
                                 className={`btn btn-primary button-primary-${
                                     isActive ? "active" : "inactive"
                                 }`}
@@ -66,8 +82,8 @@ const Timer = () => {
                             </button>
                         </div>
                         <div className='text-container'>
-                            <h1>Task Name</h1>
-                            <h4>Task Description</h4>
+                            <h1>{task?.name}</h1>
+                            <h4>{task?.description}</h4>
                         </div>
                     </div>
                 </div>

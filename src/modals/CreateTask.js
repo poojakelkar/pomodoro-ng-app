@@ -19,9 +19,9 @@ const CreateTask = ({ modal, toggle, saveTask }) => {
 
     const handleSave = () => {
         let taskobj = {};
-        taskobj["Name"] = taskName;
-        taskobj["Description"] = desc;
-        taskobj["Time"] = timer;
+        taskobj["name"] = taskName;
+        taskobj["description"] = desc;
+        taskobj["time"] = timer;
         saveTask(taskobj);
     };
 
@@ -49,9 +49,9 @@ const CreateTask = ({ modal, toggle, saveTask }) => {
                             onChange={handleChange}></textarea>
                     </div>
                     <div className='form-group'>
-                        <label>Task Time</label>
+                        <label>Task Time (In Minutes)</label>
                         <input
-                            type='time'
+                            type='number'
                             className='form-control'
                             value={timer}
                             name='taskTimer'

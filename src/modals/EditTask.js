@@ -18,17 +18,17 @@ const EditTask = ({ modal, toggle, updateTask, taskobj }) => {
     };
 
     useEffect(() => {
-        setTaskName(taskobj.Name);
-        setDesc(taskobj.Description);
-        setTimer(taskobj.Time);
+        setTaskName(taskobj.name);
+        setDesc(taskobj.description);
+        setTimer(taskobj.time);
     }, [taskobj]);
 
     const handleEdit = (e) => {
         e.preventDefault();
         let tempObj = {};
-        tempObj["Name"] = taskName;
-        tempObj["Description"] = desc;
-        tempObj["Time"] = timer;
+        tempObj["name"] = taskName;
+        tempObj["description"] = desc;
+        tempObj["time"] = timer;
         updateTask(tempObj);
     };
     return (
@@ -55,9 +55,9 @@ const EditTask = ({ modal, toggle, updateTask, taskobj }) => {
                             onChange={handleChange}></textarea>
                     </div>
                     <div className='form-group'>
-                        <label>Task Time</label>
+                        <label>Task Time (In Minutes)</label>
                         <input
-                            type='time'
+                            type='number'
                             className='form-control'
                             value={timer}
                             name='taskTimer'

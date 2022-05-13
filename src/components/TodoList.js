@@ -1,14 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
+import { AiFillPlusCircle } from "react-icons/ai";
 import CreateTask from "../modals/CreateTask";
 import EditTask from "../modals/EditTask";
 import { MainContext } from "../store/mainContext";
 import { types } from "../store/reducer";
 import Card from "./Card/Card";
-import { AiFillPlusCircle } from "react-icons/ai";
 
 const TodoList = () => {
     const { state, dispatch } = useContext(MainContext);
-
     const toggleEditModal = () => {
         dispatch({
             type: state.isEditModelOpen
@@ -16,12 +15,6 @@ const TodoList = () => {
                 : types.OPEN_EDIT_MODEL,
         });
     };
-
-    useEffect(() => {
-        dispatch({
-            type: types.POPULATE_TASK_FROM_LOCALSTORAGE,
-        });
-    }, [dispatch]);
 
     const openModal = () => {
         dispatch({
@@ -39,7 +32,6 @@ const TodoList = () => {
     };
 
     const openEditModal = (index) => {
-        debugger;
         dispatch({
             type: types.OPEN_EDIT_MODEL,
             payload: { currentEditIndex: index },
@@ -47,7 +39,6 @@ const TodoList = () => {
     };
 
     const updateTask = (obj) => {
-        debugger;
         updateListArray(obj, state?.currentEditIndex);
     };
 
