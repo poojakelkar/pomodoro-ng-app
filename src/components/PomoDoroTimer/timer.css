@@ -11,10 +11,11 @@
 .container {
     color: var(--container-color);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-.timer-container {
+.sub-container {
     height: 90vh;
     width: 60vw;
     background-color: var(--container-color);
@@ -22,4 +23,22 @@
     margin: 1rem;
     padding: 1rem;
     color: black;
+}
+.timer-container {
+    height: 55vh;
+    width: 30vw;
+    background-color: var(--card-color);
+    border-radius: 10px;
+    margin: auto;
+    padding: 1rem;
+    text-align: center;
+}
+.text-container {
+    margin: 1rem;
+    text-align: center;
+}
+.btn {
+    margin: 1rem;
+    width: 8vw;
+    font-size: 20px;
 }

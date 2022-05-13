@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./timer.css";
 import { AiFillLeftCircle } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { MainContext } from "../../store/mainContext";
+import { types } from "../../store/reducer";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 const Timer = () => {
     const { state, dispatch } = useContext(MainContext);
@@ -21,6 +23,7 @@ const Timer = () => {
 
     useEffect(() => {
         let interval = null;
+
         if (isActive) {
             interval = setInterval(() => {
                 setSeconds((seconds) => seconds + 1);
@@ -36,31 +39,40 @@ const Timer = () => {
     }, [isActive, seconds]);
 
     return (
-        <div className='timer'>
-            <div className='container'>
-                <div className='timer-container'>
-                    <Link to='/'>
-                        <AiFillLeftCircle size={30} style={{}} />
-                    </Link>
-                    <h1>Timer</h1>
-                    <h1>
-                        {minute < 10 ? "0" + minute : minute}:
-                        {seconds < 10 ? "0" + seconds : seconds}
-                    </h1>
-
-                    <button
-                        className={`button button-primary button-primary-${
-                            isActive ? "active" : "inactive"
-                        }`}
-                        onClick={toggle}>
-                        {isActive ? "Pause" : "Start"}
-                    </button>
-                    <button className='button' onClick={reset}>
-                        Reset
-                    </button>
+        <>
+            <div className='timer'>
+                <div className='container'>
+                    <div className='sub-container'>
+                        <Link to='/'>
+                            <AiFillLeftCircle size={30} style={{}} />
+                        </Link>
+                        <div className='timer-container'>
+                            <h1>Timer</h1>
+                            <h1>
+                                {minute < 10 ? "0" + minute : minute}:
+                                {seconds < 10 ? "0" + seconds : seconds}
+                            </h1>
+                            <button
+                                className={`btn btn-primary button-primary-${
+                                    isActive ? "active" : "inactive"
+                                }`}
+                                onClick={toggle}>
+                                {isActive ? "Pause" : "Start"}
+                            </button>
+                            <button
+                                className='btn btn-secondary'
+                                onClick={reset}>
+                                Reset
+                            </button>
+                        </div>
+                        <div className='text-container'>
+                            <h1>Task Name</h1>
+                            <h4>Task Description</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

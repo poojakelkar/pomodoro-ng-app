@@ -79,6 +79,7 @@ export const reducer = (state = initialState, { type, payload }) => {
             };
         case types.CLOSE_EDIT_MODEL:
             return { ...state, isEditModelOpen: false };
+
         default:
             return state;
     }
