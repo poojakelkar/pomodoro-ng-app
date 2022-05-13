@@ -42,10 +42,6 @@ const Timer = () => {
                 setSeconds((seconds) => seconds - 1);
             }, 1000);
         }
-        // } else if (seconds <= 0) {
-        //     setIsActive(false);
-        //     clearInterval(interval);
-        // }
         return () => clearInterval(interval);
     }, [isActive, seconds]);
     let progressWidth = "100%";
